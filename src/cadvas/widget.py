@@ -1,56 +1,89 @@
+import math
+
 import PySide2
 import  pyqtgraph as pg
+from PySide2 import QtGui
 from PySide2.QtGui import QPen
 from PySide2.QtWidgets import QApplication, QGraphicsSimpleTextItem, QGraphicsLineItem
+from PySide2.QtWidgets import QWidget, QVBoxLayout
 
 from cadvas.elements import *
 
 # Create a plot
 
-app = pg.mkQApp()
+class QCadvasWidget(pg.GraphicsLayoutWidget):
 
-w = pg.PlotWidget()
-w.setAspectLocked(True)
-w.setBackground((254,254,254))
-w.enableAutoRange(False)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.setBackground((254, 254, 254))
+
+        sub1 = self.addLayout()
+        w = sub1.addViewBox()
+
+        w.setAspectLocked(True)
+        w.enableAutoRange(False)
+
+        self._items = []
+
+        w.sigRangeChanged.connect(self.updateMeasurements)
+
+        self.w = w
+
+    def updateMeasurements(self):
+        for p in self._items:
+            p.updateItems(self.w)
+
+    def addCadItem(self, item: CadItem, do_bounds = False):
+        item.createItems(self.w, do_bounds)
+        self._items.append(item)
 
 
-items = []
+if __name__ == '__main__':
 
-seg = Segment((0,1),(10,1))
-seg.createItems(w)
-items.append(seg)
+    app = pg.mkQApp()
+    mw = QtGui.QMainWindow()
+    mw.setWindowTitle('pyqtgraph example: PlotWidget')
+    mw.resize(800,800)
+    cw = QCadvasWidget()
+    mw.setCentralWidget(cw)
 
-seg = Segment((0,5),(10,1))
-seg.createItems(w)
-items.append(seg)
+    items = []
 
-meas = Measure((0,5),(0,1))
-meas.createItems(w)
-items.append(meas)
+    seg = Segment((0,1),(10,1))
+    cw.addCadItem(seg, do_bounds=True)
 
-box = Box((1,1),(3,10))
-box.createItems(w)
-items.append(box)
+    seg = Segment((0,5),(10,1))
+    cw.addCadItem(seg, do_bounds=True)
 
-print('adding')
+    meas = Measure((4,1),(0,5), offset=0.5)
+    cw.addCadItem(meas)
 
-for i in range(100):
-    meas = Measure((i, i+5), (i+3, 3*i))
-    meas.createItems(w)
-    items.append(meas)
+    meas = Measure((4,1),(2,1), offset=0.5)
+    cw.addCadItem(meas)
 
-print('done')
+    meas = Measure((2,1),(2,10), offset=0.5)
+    cw.addCadItem(meas)
 
-def changed():
-    for p in items:
-        p.updateItems(w)
+    box = Box((-10,-10),(10,10))
+    cw.addCadItem(box, do_bounds=True)
 
-w.sigRangeChanged.connect(changed)
+    for i in range(36):
+        cw.addCadItem(Measure((0,0),
+                              (10 * math.cos(math.radians(10*i)), 10 * math.sin(math.radians(10*i)))))
 
-w.show()
 
-app = QApplication.instance()
-app.exec_()
+    mw.show()
 
-print('done')
+    app = QApplication.instance()
+    app.exec_()
+
+
+
+#
+# import pyqtgraph.exporters
+#
+# exporter = pyqtgraph.exporters.ImageExporter( w.scene() )
+# exporter.parameters()['width'] = 8000
+# exporter.export(r'c:\data\test.png')
+#
+# print('done')
