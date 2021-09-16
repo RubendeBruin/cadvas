@@ -15,5 +15,5 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-from elements import *
-from widget import QCadvasWidget
+from .elements import *
+from .widget import QCadvasWidget
