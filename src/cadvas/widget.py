@@ -1,11 +1,7 @@
 import math
-
 import PySide2
-import  pyqtgraph as pg
+import pyqtgraph as pg
 from PySide2 import QtGui
-from PySide2.QtGui import QPen
-from PySide2.QtWidgets import QApplication, QGraphicsSimpleTextItem, QGraphicsLineItem
-from PySide2.QtWidgets import QWidget, QVBoxLayout
 
 from cadvas.elements import *
 
@@ -33,12 +29,18 @@ class QCadvasWidget(pg.GraphicsLayoutWidget):
         for p in self._items:
             p.updateItems(self.w)
 
-    def addCadItem(self, item: CadItem, do_bounds = False):
+    def addCadItem(self, item: CadItem, do_bounds = True):
         item.createItems(self.w, do_bounds)
         self._items.append(item)
 
+    def clearDrawing(self):
+        self._items = []
+        self.w.clear()
+
 
 if __name__ == '__main__':
+
+    from PySide2.QtWidgets import QApplication
 
     app = pg.mkQApp()
     mw = QtGui.QMainWindow()
@@ -71,8 +73,12 @@ if __name__ == '__main__':
         cw.addCadItem(Measure((0,0),
                               (10 * math.cos(math.radians(10*i)), 10 * math.sin(math.radians(10*i)))))
 
-
     mw.show()
+
+    cw.clearDrawing()
+
+    box = Box((-10, -10), (10, 10))
+    cw.addCadItem(box, do_bounds=True)
 
     app = QApplication.instance()
     app.exec_()
