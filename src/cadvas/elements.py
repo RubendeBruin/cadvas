@@ -1,9 +1,11 @@
 import math
 from abc import ABC,abstractmethod
 
-import  pyqtgraph as pg
-from PySide2.QtGui import QColor
-from PySide2.QtWidgets import QGraphicsLineItem, QGraphicsRectItem
+from PySide2.QtCore import QPointF
+from PySide2.QtGui import QColor, QPolygonF, QBrush
+from PySide2.QtWidgets import QGraphicsLineItem, QGraphicsRectItem, QGraphicsPolygonItem
+import PySide2.QtWidgets
+import pyqtgraph as pg
 
 MEASURE_COLOR = QColor(0,200,150)
 
@@ -71,6 +73,28 @@ class Box(CadItem):
         pen.setWidth(0.1)
         self.rect.setPen(pen)
         target.addItem(self.rect, ignoreBounds=not do_bounds)
+
+    def updateItems(self, target : pg.PlotWindow):
+        pass
+
+
+class Polygon(CadItem):
+
+    def __init__(self, points):
+        self.points = points
+
+    def createItems(self, target : pg.PlotWindow, do_bounds = False):
+        pts = [QPointF(*point) for point in self.points]
+        p = QPolygonF(pts)
+        self.poly = QGraphicsPolygonItem(p)
+        target.addItem(self.poly)
+
+        self.poly.mousePressEvent = self.clicked
+
+    def clicked(self, event):
+        print('clicked the poly')
+        self.poly.setBrush(QBrush(QColor(0,254,0)))
+        self.poly.update()
 
     def updateItems(self, target : pg.PlotWindow):
         pass

@@ -15,5 +15,8 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-from .elements import *
+import os
+os.environ['PYQTGRAPH_QT_LIB'] = 'PySide2'
+
 from .widget import QCadvasWidget
+from .elements import *

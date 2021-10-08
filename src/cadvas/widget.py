@@ -1,7 +1,12 @@
+import os
+os.environ['PYQTGRAPH_QT_LIB'] = 'PySide2'
+
+from PySide2 import QtWidgets
+import pyqtgraph as pg
 import math
 import PySide2
-import pyqtgraph as pg
 from PySide2 import QtGui
+
 
 from cadvas.elements import *
 
@@ -73,9 +78,12 @@ if __name__ == '__main__':
         cw.addCadItem(Measure((0,0),
                               (10 * math.cos(math.radians(10*i)), 10 * math.sin(math.radians(10*i)))))
 
+    poly = Polygon(((0,0),(0,1),(1,0)))
+    cw.addCadItem(poly)
+
     mw.show()
 
-    cw.clearDrawing()
+    # cw.clearDrawing()
 
     box = Box((-10, -10), (10, 10))
     cw.addCadItem(box, do_bounds=True)
