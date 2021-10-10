@@ -110,7 +110,7 @@ class Circle(CadItem):
 
     def createItems(self, target : pg.PlotWindow, do_bounds = False):
 
-        self.circle = QGraphicsEllipseItem(self.center[0], self.center[1], self.radius, self.radius)
+        self.circle = QGraphicsEllipseItem(self.center[0]-self.radius, self.center[1]-self.radius, 2*self.radius, 2*self.radius)
         pen = self.circle.pen()
         pen.setWidth(0.1)
         self.circle.setPen(pen)
