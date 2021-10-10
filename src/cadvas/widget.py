@@ -81,6 +81,9 @@ if __name__ == '__main__':
     poly = Polygon(((0,0),(0,1),(1,0)))
     cw.addCadItem(poly)
 
+    rondje = Circle(center = (2,2), radius = 2)
+    cw.addCadItem(rondje)
+
     mw.show()
 
     # cw.clearDrawing()

@@ -3,7 +3,7 @@ from abc import ABC,abstractmethod
 
 from PySide2.QtCore import QPointF
 from PySide2.QtGui import QColor, QPolygonF, QBrush
-from PySide2.QtWidgets import QGraphicsLineItem, QGraphicsRectItem, QGraphicsPolygonItem
+from PySide2.QtWidgets import QGraphicsLineItem, QGraphicsRectItem, QGraphicsPolygonItem, QGraphicsEllipseItem
 import PySide2.QtWidgets
 import pyqtgraph as pg
 
@@ -41,6 +41,7 @@ class CadItem(ABC):
 
 
 class Segment(CadItem):
+    """Segment is a line between two points"""
 
     def __init__(self, start, end):
         self.start = start
@@ -57,6 +58,7 @@ class Segment(CadItem):
         pass
 
 class Box(CadItem):
+    """Box is a rectangle"""
 
     def __init__(self, lower_left, upper_right):
         self.lower_left = lower_left
@@ -79,6 +81,7 @@ class Box(CadItem):
 
 
 class Polygon(CadItem):
+    """Polygon is a closed segment"""
 
     def __init__(self, points):
         self.points = points
@@ -92,9 +95,29 @@ class Polygon(CadItem):
         self.poly.mousePressEvent = self.clicked
 
     def clicked(self, event):
-        print('clicked the poly')
         self.poly.setBrush(QBrush(QColor(0,254,0)))
         self.poly.update()
+
+    def updateItems(self, target : pg.PlotWindow):
+        pass
+
+class Circle(CadItem):
+    """Polygon is a closed segment"""
+
+    def __init__(self, center, radius):
+        self.center = center
+        self.radius = radius
+
+    def createItems(self, target : pg.PlotWindow, do_bounds = False):
+
+        self.circle = QGraphicsEllipseItem(self.center[0], self.center[1], self.radius, self.radius)
+        pen = self.circle.pen()
+        pen.setWidth(0.1)
+        self.circle.setPen(pen)
+        target.addItem(self.circle, ignoreBounds=not do_bounds)
+
+
+
 
     def updateItems(self, target : pg.PlotWindow):
         pass
