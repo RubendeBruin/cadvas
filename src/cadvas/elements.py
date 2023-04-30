@@ -1,10 +1,10 @@
 import math
 from abc import ABC,abstractmethod
 
-from PySide2.QtCore import QPointF
-from PySide2.QtGui import QColor, QPolygonF, QBrush
-from PySide2.QtWidgets import QGraphicsLineItem, QGraphicsRectItem, QGraphicsPolygonItem, QGraphicsEllipseItem
-import PySide2.QtWidgets
+from PySide6.QtCore import QPointF
+from PySide6.QtGui import QColor, QPolygonF, QBrush
+from PySide6.QtWidgets import QGraphicsLineItem, QGraphicsRectItem, QGraphicsPolygonItem, QGraphicsEllipseItem
+import PySide6.QtWidgets
 import pyqtgraph as pg
 
 MEASURE_COLOR = QColor(0,200,150)
@@ -17,12 +17,12 @@ Use ,ignoreBounds=True to speed-up adding to plot
 class CadItem(ABC):
 
     @abstractmethod
-    def createItems(self, target : pg.PlotWindow, do_bounds = False):
+    def createItems(self, target : pg.PlotWidget, do_bounds = False):
         """Creates items and adds them to target"""
         pass
 
     @abstractmethod
-    def updateItems(self, target : pg.PlotWindow):
+    def updateItems(self, target : pg.PlotWidget):
         """Updates the items"""
         pass
 
@@ -47,14 +47,14 @@ class Segment(CadItem):
         self.start = start
         self.end = end
 
-    def createItems(self, target : pg.PlotWindow, do_bounds = False):
+    def createItems(self, target : pg.PlotWidget, do_bounds = False):
         self.line = QGraphicsLineItem(*self.start, *self.end)
         pen = self.line.pen()
         pen.setWidth(0.1)
         self.line.setPen(pen)
         target.addItem(self.line,ignoreBounds=not do_bounds)
 
-    def updateItems(self, target : pg.PlotWindow):
+    def updateItems(self, target : pg.PlotWidget):
         pass
 
 class Box(CadItem):
@@ -64,7 +64,7 @@ class Box(CadItem):
         self.lower_left = lower_left
         self.upper_right = upper_right
 
-    def createItems(self, target : pg.PlotWindow, do_bounds = False):
+    def createItems(self, target : pg.PlotWidget, do_bounds = False):
 
         w = self.upper_right[0]- self.lower_left[0]
         h = self.upper_right[1]- self.lower_left[1]
@@ -76,7 +76,7 @@ class Box(CadItem):
         self.rect.setPen(pen)
         target.addItem(self.rect, ignoreBounds=not do_bounds)
 
-    def updateItems(self, target : pg.PlotWindow):
+    def updateItems(self, target : pg.PlotWidget):
         pass
 
 
@@ -86,7 +86,7 @@ class Polygon(CadItem):
     def __init__(self, points):
         self.points = points
 
-    def createItems(self, target : pg.PlotWindow, do_bounds = False):
+    def createItems(self, target : pg.PlotWidget, do_bounds = False):
         pts = [QPointF(*point) for point in self.points]
         p = QPolygonF(pts)
         self.poly = QGraphicsPolygonItem(p)
@@ -98,7 +98,7 @@ class Polygon(CadItem):
         self.poly.setBrush(QBrush(QColor(0,254,0)))
         self.poly.update()
 
-    def updateItems(self, target : pg.PlotWindow):
+    def updateItems(self, target : pg.PlotWidget):
         pass
 
 class Circle(CadItem):
@@ -108,7 +108,7 @@ class Circle(CadItem):
         self.center = center
         self.radius = radius
 
-    def createItems(self, target : pg.PlotWindow, do_bounds = False):
+    def createItems(self, target : pg.PlotWidget, do_bounds = False):
 
         self.circle = QGraphicsEllipseItem(self.center[0]-self.radius, self.center[1]-self.radius, 2*self.radius, 2*self.radius)
         pen = self.circle.pen()
@@ -119,7 +119,7 @@ class Circle(CadItem):
 
 
 
-    def updateItems(self, target : pg.PlotWindow):
+    def updateItems(self, target : pg.PlotWidget):
         pass
 
 class Measure(CadItem):
@@ -148,7 +148,7 @@ class Measure(CadItem):
 
         self.angle = math.degrees(math.atan2(dy,dx))
 
-    def createItems(self, target : pg.PlotWindow, do_bounds = False):
+    def createItems(self, target : pg.PlotWidget, do_bounds = False):
         self.line = QGraphicsLineItem(self.start[0] + self.offset[0],
                                       self.start[1] + self.offset[1],
                                       self.end[0] + self.offset[0],
@@ -206,7 +206,7 @@ class Measure(CadItem):
                                 self.end[1] + self.offset[1],
                                 )
 
-    def updateItems(self, target : pg.PlotWindow):
+    def updateItems(self, target : pg.PlotWidget):
 
         range = target.viewRect()
         length = max(range.width(), range.height())

@@ -1,11 +1,11 @@
 import os
-os.environ['PYQTGRAPH_QT_LIB'] = 'PySide2'
+os.environ['PYQTGRAPH_QT_LIB'] = 'PySide6'
 
-from PySide2 import QtWidgets
+from PySide6 import QtWidgets
 import pyqtgraph as pg
 import math
-import PySide2
-from PySide2 import QtGui
+import PySide6
+from PySide6 import QtGui
 
 
 from cadvas.elements import *
@@ -45,10 +45,10 @@ class QCadvasWidget(pg.GraphicsLayoutWidget):
 
 if __name__ == '__main__':
 
-    from PySide2.QtWidgets import QApplication
+    from PySide6.QtWidgets import QApplication
 
     app = pg.mkQApp()
-    mw = QtGui.QMainWindow()
+    mw = QtWidgets.QMainWindow()
     mw.setWindowTitle('pyqtgraph example: PlotWidget')
     mw.resize(800,800)
     cw = QCadvasWidget()

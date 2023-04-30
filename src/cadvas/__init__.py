@@ -16,7 +16,7 @@ finally:
     del version, PackageNotFoundError
 
 import os
-os.environ['PYQTGRAPH_QT_LIB'] = 'PySide2'
+os.environ['PYQTGRAPH_QT_LIB'] = 'PySide6'
 
 from .widget import QCadvasWidget
 from .elements import *
