@@ -92,7 +92,7 @@ if __name__ == '__main__':
     cw.addCadItem(box, do_bounds=True)
 
     app = QApplication.instance()
-    app.exec_()
+    app.exec()
 
 
 
