@@ -47,7 +47,7 @@ wheels = [
 ]
 
 [[package]]
-name = "cadvas-vessels"
+name = "cadvas"
 source = { editable = "." }
 dependencies = [
     { name = "pyqtgraph" },
