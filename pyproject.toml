@@ -90,6 +90,8 @@ docs = [
 # 🔹 FORMATTING & LINTING
 # ========================================================================================
 
+[tool.deptry]
+exclude = ["docs"]
 
 [tool.mypy]
 files = ["src"]
