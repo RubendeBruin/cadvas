@@ -91,7 +91,21 @@ docs = [
 # ========================================================================================
 
 [tool.deptry]
-exclude = ["docs"]
+exclude = ["docs", ".venv", ".tox", ".eggs", "build", "dist"]
+ignore = [
+    "cadvas",
+    "tests",
+    "docs",
+    "setup.py",
+    "setup.cfg",
+    "pyproject.toml",
+    ".coveragerc",
+    ".env",
+    ".envrc",
+    ".direnv",
+    ".gitignore",
+    ".pre-commit-config.yaml",
+]
 
 [tool.mypy]
 files = ["src"]
