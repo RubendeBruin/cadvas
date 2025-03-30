@@ -93,7 +93,7 @@ docs = [
 
 [tool.mypy]
 files = ["src"]
-exclude = "docs/.*"  # Make sure to match all files in the docs directory
+exclude = "docs/conf.py"
 ignore_missing_imports = true
 disallow_untyped_defs = false
 disallow_any_unimported = false
