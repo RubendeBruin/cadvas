@@ -79,7 +79,7 @@ docs = [
 [package.metadata]
 requires-dist = [
     { name = "pyqtgraph", specifier = ">=0.13.7" },
-    { name = "pyside6-essentials", specifier = ">=6.8.3" },
+    { name = "pyside6-essentials", specifier = ">=6.4.0.1" },
 ]
 
 [package.metadata.requires-dev]
