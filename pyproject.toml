@@ -91,7 +91,7 @@ docs = [
 # ========================================================================================
 
 [tool.deptry]
-exclude = ["docs", ".venv", ".tox", ".eggs", "build", "dist"]
+exclude = ["docs", ".venv", ".tox", ".eggs", "build", "dist", "examples"]
 ignore = [
     "cadvas",
     "tests",
