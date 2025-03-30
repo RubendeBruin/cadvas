@@ -37,11 +37,19 @@ authors = [
 ]
 description = "Uitility for 2D cad-drawings"
 readme = "README.md"
-requires-python = ">=3.11"
+keywords = ['python']
+requires-python = ">=3.10,<4.0"
 classifiers = [
+    "Intended Audience :: Developers",
+    "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+
 license = "LicenseRef-Proprietary"
 license-files = [
     "LICENSE*",
@@ -51,70 +59,29 @@ license-files = [
 
 dependencies = [
 ]
-
-# === Build dependencies ===
-
-# Note that this section cannot be added to dependency-groups as dependency-groups
-# are not recognized by setuptools, and therefore the build is not able to compile the .pyd files.
-# Adding them here ensure that pyd are rebuild
-[project.optional-dependencies]
-build = [
-    "setuptools>=75.8.0",
-    "setuptools-scm>=8.1.0",
-]
-
-# === Dependency Groups ===
+[project.urls]
+Repository = "https://github.com/dave-Lab-and-Engineering/python-build-utils"
 
 [dependency-groups]
 dev = [
-    "pytest>=8.3.4",
+    "pytest>=7.2.0",
     "pytest-cov>=6.0.0",
     "coverage[toml]>=7.6.1",
     "pytest-pretty>=1.2.0",
-    "pre-commit>=4.1.0",
-    "isort>=6.0.0",
-    "pylint>=3.3.4",
-    "ruff>=0.7.4",
-    "mypy>=1.15.0",
-    "pytest-image-diff>=0.0.14",
-    "psutil>=7.0.0",
-    "pytest-xdist>=3.6.1",
-    "pyside6-essentials>=6.6.1",
-    "debugpy>=1.8.12",
-    "ipython>=8.32.0",
+    "pre-commit>=2.20.0",
+    "tox-uv>=1.11.3",
+    "mypy>=0.991",
+    "ruff>=0.9.2",
+    "deptry>=0.22.0",
+    "coveralls>=4.0.1",
+    "mkdocs>=1.4.2",
+    "mkdocs-material>=8.5.10",
+    "mkdocstrings[python]>=0.26.1",
+    "mkdocstrings-python>=1.16.0",
 ]
-
-docs = [
-    "sphinx>=4.3.0",
-    "sphinx-rtd-theme>=1.0.0",
+uv = [
+    "uv>=0.5.29",
 ]
-
-
-# this group is needed for uv sync --group build (but is not recognized by setuptools, hence two times)
-build = [
-    "setuptools>=75.8.0",
-]
-
-[project.urls]
-Homepage = "https://usedave.nl"
-Issues = "https://github.com/dave-Lab-and-Engineering/dave/issues"
-
-
-# ========================================================================================
-# 🔹 PUBLICATION using UV
-# ========================================================================================
-
-# === uv  ===
-[tool.uv]
-publish-url = "https://pypi.davelab.eu"
-
-[[tool.uv.index]]
-name = "davepypi"
-url = "https://pypi.davelab.eu"
-default = true
-
-[[tool.uv.index]]
-url = "https://pypi.org/simple"
 
 # ========================================================================================
 # 🔹 FORMATTING & LINTING
@@ -212,49 +179,6 @@ select = [
 ignore = [
     # LineTooLong
     "E501",
-    # DoNotAssignLambda
-    "E731",
-    # Do not check assert
-    "S101",
-    # Do not check on secret key
-    "S105",
-    # Do not check on too complex
-    "C901",
-    # Do not check on missing docstrings in modules
-    "D100",
-    # Do not check on missing docstrings in public classes
-    "D101",
-    # Do not check on docstrings
-    "D102",
-    "D103",
-    "D104",
-    "D105",
-    "D106",
-    "D107",
-    # module import not at top of file
-    "E402",
-    # do not check closing
-    "D415",
-    # do not check on missing blank lines
-    "D205",
-    # simplify, i.e. suggest contextlib.suppress over try/except
-    "SIM105",
-    # do not check on unused imports
-    "F401",
-    # unable to detect imports
-    "F403",
-    # do not check on undefined
-    "F405",
-    # do not check on missing logging for pass
-    "S110",
-    # do not check on bare except
-    "E722",
-    # do not check on import not recognized
-    "F821",
-    # do not check unused assignments
-    "F841"
-
-
 ]
 extend-select = [
     "Q",
