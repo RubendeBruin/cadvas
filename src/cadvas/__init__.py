@@ -1,6 +1,10 @@
+"""This module initializes the `cadvas` package and sets up its environment."""
+
 import os
-import sys
 from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
+
+from .elements import Box, CadItem, Circle, Measure, Polygon, Segment
+from .widget import QCadvasWidget
 
 try:
     # Change here if project is renamed and does not equal the package name
@@ -12,9 +16,6 @@ finally:
     del version, PackageNotFoundError
 
 os.environ["PYQTGRAPH_QT_LIB"] = "PySide6"
-
-from .elements import Box, CadItem, Circle, Measure, Polygon, Segment
-from .widget import QCadvasWidget
 
 __all__ = [
     "Box",

@@ -59,6 +59,7 @@ license-files = [
 
 dependencies = [
     "pyqtgraph>=0.13.7",
+    "pyside6-essentials>=6.8.3",
 ]
 [project.urls]
 Repository = "https://github.com/dave-Lab-and-Engineering/python-build-utils"
@@ -81,9 +82,6 @@ dev = [
     "mkdocstrings-python>=1.16.0",
 ]
 
-examples = [
-    "pyside6-essentials>=6.8.3",
-]
 
 # ========================================================================================
 # 🔹 FORMATTING & LINTING
