@@ -50,12 +50,13 @@ from abc import ABC, abstractmethod
 
 import pyqtgraph as pg
 from PySide6.QtCore import QPointF, QRectF
-from PySide6.QtGui import QBrush, QColor, QMouseEvent, QPolygonF
+from PySide6.QtGui import QBrush, QColor, QPolygonF
 from PySide6.QtWidgets import (
     QGraphicsEllipseItem,
     QGraphicsLineItem,
     QGraphicsPolygonItem,
     QGraphicsRectItem,
+    QGraphicsSceneMouseEvent,
 )
 
 logger = logging.getLogger(__name__)
@@ -237,7 +238,7 @@ class ClickablePolygon(QGraphicsPolygonItem):
         """
         super().__init__(QPolygonF([QPointF(*p) for p in points]), parent)
 
-    def mousePressEvent(self, event: QMouseEvent):
+    def mousePressEvent(self, event: QGraphicsSceneMouseEvent):
         """Handles the mouse press event by changing the brush color."""
         self.setBrush(QBrush(QColor(0, 254, 0)))
         self.update()
