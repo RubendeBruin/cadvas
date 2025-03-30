@@ -1,17 +1,16 @@
 import math
-from warnings import warn
 from abc import ABC, abstractmethod
+from warnings import warn
 
-from PySide6.QtCore import QPointF
-from PySide6.QtGui import QColor, QPolygonF, QBrush
-from PySide6.QtWidgets import (
-    QGraphicsLineItem,
-    QGraphicsRectItem,
-    QGraphicsPolygonItem,
-    QGraphicsEllipseItem,
-)
-import PySide6.QtWidgets
 import pyqtgraph as pg
+from PySide6.QtCore import QPointF
+from PySide6.QtGui import QBrush, QColor, QPolygonF
+from PySide6.QtWidgets import (
+    QGraphicsEllipseItem,
+    QGraphicsLineItem,
+    QGraphicsPolygonItem,
+    QGraphicsRectItem,
+)
 
 MEASURE_COLOR = QColor(0, 200, 150)
 
@@ -199,9 +198,7 @@ class Measure(CadItem):
             pen=pen,
         )
 
-        self.mark_start.setPos(
-            self.start[0] + self.offset[0], self.start[1] + self.offset[1]
-        )
+        self.mark_start.setPos(self.start[0] + self.offset[0], self.start[1] + self.offset[1])
         self.mark_end.setPos(self.end[0] + self.offset[0], self.end[1] + self.offset[1])
 
         self.offset_start = QGraphicsLineItem(*self.end, *self.end)
@@ -217,9 +214,7 @@ class Measure(CadItem):
         target.addItem(self.offset_start, ignoreBounds=not do_bounds)
         target.addItem(self.offset_end, ignoreBounds=not do_bounds)
 
-        self.textitem = pg.TextItem(
-            f"{self.distance:.2f}", anchor=(0.5, 0.5), fill=(254, 254, 254)
-        )
+        self.textitem = pg.TextItem(f"{self.distance:.2f}", anchor=(0.5, 0.5), fill=(254, 254, 254))
         self.textitem.setPos(*self.midpoint)
 
         if self.angle > 90 or self.angle < -90:

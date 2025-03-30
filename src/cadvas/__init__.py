@@ -1,6 +1,5 @@
-import sys
 import os
-
+import sys
 from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
 
 try:
@@ -12,19 +11,17 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-os.environ['PYQTGRAPH_QT_LIB'] = 'PySide6'
+os.environ["PYQTGRAPH_QT_LIB"] = "PySide6"
 
+from .elements import Box, CadItem, Circle, Measure, Polygon, Segment
 from .widget import QCadvasWidget
-from .elements import CadItem, Segment, Box, Circle, Polygon, Measure
 
 __all__ = [
-    "QCadvasWidget", 
-    "CadItem", 
-    "Segment", 
-    "Box", 
-    "Circle", 
-    "Polygon", 
+    "Box",
+    "CadItem",
+    "Circle",
     "Measure",
+    "Polygon",
+    "QCadvasWidget",
+    "Segment",
 ]
-                    
-
