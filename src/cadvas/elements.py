@@ -118,7 +118,7 @@ class CadItem(ABC):
             bool: True if the point (x, y) is within the visible range of the view, False otherwise.
         """
         view_range = w.viewRect()
-        return view_range.left() <= x <= view_range.right() and view_range.top() <= y <= view_range.bottom()
+        return bool(view_range.left() <= x <= view_range.right() and view_range.top() <= y <= view_range.bottom())
 
 
 class Segment(CadItem):
@@ -489,6 +489,15 @@ class Measure(CadItem):
             self.end[1] + self.offset[1],
         )
 
+    @staticmethod
+    def _unpack_coordinates(coords):
+        """Unpacks a tuple of coordinates (x, y), or returns a fallback if invalid."""
+        if isinstance(coords, tuple) and len(coords) == 2:
+            return coords
+        else:
+            # Handle error: coords is not a valid tuple
+            return (0, 0)  # Example fallback
+
     def updateItems(self, target: pg.PlotWidget):
         """Updates the visibility of graphical items based on their presence within the view range of the target PlotWidget.
 
@@ -507,7 +516,11 @@ class Measure(CadItem):
         length = max(view_range.width(), view_range.height())
         logger.debug(f"Measure length: {length}")
 
-        visible = bool(self.in_view(*self.start, target) and self.in_view(*self.end, target))
+        # Unpack both self.start and self.end using the helper function
+        x1, y1 = self._unpack_coordinates(self.start)
+        x2, y2 = self._unpack_coordinates(self.end)
+
+        visible = bool(self.in_view(x1, y1, target) and self.in_view(x2, y2, target))
 
         self.mark_start.setVisible(visible)
         self.mark_end.setVisible(visible)
