@@ -49,7 +49,7 @@ import math
 from abc import ABC, abstractmethod
 
 import pyqtgraph as pg
-from PySide6.QtCore import QPointF
+from PySide6.QtCore import QPointF, QRectF
 from PySide6.QtGui import QBrush, QColor, QPolygonF
 from PySide6.QtWidgets import (
     QGraphicsEllipseItem,
@@ -155,7 +155,7 @@ class Segment(CadItem):
         """
         self.line = QGraphicsLineItem(*self.start, *self.end)
         pen = self.line.pen()
-        pen.setWidth(0.1)
+        pen.setWidthF(0.1)
         self.line.setPen(pen)
         target.addItem(self.line, ignoreBounds=not do_bounds)
 
@@ -201,10 +201,11 @@ class Box(CadItem):
             rect (QGraphicsRectItem): The graphical rectangle item created and added
                 to the PlotWidget.
         """
+        x, y = self.lower_left
         w = self.upper_right[0] - self.lower_left[0]
         h = self.upper_right[1] - self.lower_left[1]
 
-        self.rect = QGraphicsRectItem(*self.lower_left, w, h)
+        self.rect = QGraphicsRectItem(QRectF(x, y, w, h))
 
         pen = self.rect.pen()
         pen.setWidth(0.1)

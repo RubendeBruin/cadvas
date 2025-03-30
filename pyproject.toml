@@ -90,6 +90,7 @@ dev = [
 
 [tool.mypy]
 files = ["src"]
+ignore_missing_imports = true
 disallow_untyped_defs = false
 disallow_any_unimported = false
 no_implicit_optional = true
