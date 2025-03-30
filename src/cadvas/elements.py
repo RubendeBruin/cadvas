@@ -50,7 +50,7 @@ from abc import ABC, abstractmethod
 
 import pyqtgraph as pg
 from PySide6.QtCore import QPointF, QRectF
-from PySide6.QtGui import QBrush, QColor, QPolygonF
+from PySide6.QtGui import QBrush, QColor, QMouseEvent, QPolygonF
 from PySide6.QtWidgets import (
     QGraphicsEllipseItem,
     QGraphicsLineItem,
@@ -208,7 +208,7 @@ class Box(CadItem):
         self.rect = QGraphicsRectItem(QRectF(x, y, w, h))
 
         pen = self.rect.pen()
-        pen.setWidth(0.1)
+        pen.setWidthF(0.1)
         self.rect.setPen(pen)
         target.addItem(self.rect, ignoreBounds=not do_bounds)
 
@@ -224,6 +224,26 @@ class Box(CadItem):
         pass
 
 
+class ClickablePolygon(QGraphicsPolygonItem):
+    """A QGraphicsPolygonItem subclass that emits a click event."""
+
+    def __init__(self, points, parent=None):
+        """Initializes an instance of the class.
+
+        Args:
+            points (list of tuple): A list of tuples representing points, where each tuple contains
+                coordinates (x, y) of a point.
+            parent (QObject, optional): The parent object. Defaults to None.
+        """
+        super().__init__(QPolygonF([QPointF(*p) for p in points]), parent)
+
+    def mousePressEvent(self, event: QMouseEvent):
+        """Handles the mouse press event by changing the brush color."""
+        self.setBrush(QBrush(QColor(0, 254, 0)))
+        self.update()
+        super().mousePressEvent(event)  # Call parent method to keep default behavior
+
+
 class Polygon(CadItem):
     """Polygon is a closed segment."""
 
@@ -236,53 +256,12 @@ class Polygon(CadItem):
         self.points = points
 
     def createItems(self, target: pg.PlotWidget, do_bounds=False):
-        """Creates graphical items for the given target PlotWidget and adds them to it.
-
-        This method generates a QGraphicsPolygonItem based on the points defined in
-        the `self.points` attribute. The polygon is then added to the specified
-        PlotWidget target. Additionally, a custom mouse press event handler is
-        assigned to the polygon.
-
-        Args:
-            target (pg.PlotWidget): The PlotWidget to which the polygon item will be added.
-            do_bounds (bool, optional): A flag to indicate whether bounds-related
-                operations should be performed. Defaults to False.
-
-        Attributes:
-            self.poly (QGraphicsPolygonItem): The polygon item created and added to the target.
-
-        Note:
-            The `self.points` attribute must be defined and contain a list of points
-            (tuples of x, y coordinates) before calling this method.
-        """
-        pts = [QPointF(*point) for point in self.points]
-        p = QPolygonF(pts)
-        self.poly = QGraphicsPolygonItem(p)
+        """Creates graphical items for the given target PlotWidget and adds them to it."""
+        self.poly = ClickablePolygon(self.points)  # Use our custom subclass
         target.addItem(self.poly)
 
-        self.poly.mousePressEvent = self.clicked
-
-    def clicked(self, event):
-        """Handles the click event on the element.
-
-        When the element is clicked, this method changes the brush color of the
-        associated polygon (`self.poly`) to green and updates its appearance.
-
-        Args:
-            event: The event object containing information about the click event.
-        """
-        self.poly.setBrush(QBrush(QColor(0, 254, 0)))
-        self.poly.update()
-
     def updateItems(self, target: pg.PlotWidget):
-        """Updates the items in the specified PlotWidget target.
-
-        This method is intended to modify or refresh the graphical elements
-        displayed within the provided pyqtgraph PlotWidget.
-
-        Args:
-            target (pg.PlotWidget): The PlotWidget instance to update.
-        """
+        """Updates the items in the specified PlotWidget target."""
         pass
 
 
