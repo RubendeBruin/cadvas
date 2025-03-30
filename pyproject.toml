@@ -30,7 +30,7 @@ namespaces = true
 # 🔹 PROJECT METADATA
 # ========================================================================================
 [project]
-name = "cadvas-vessels"
+name = "cadvas"
 dynamic = ["version"]
 authors = [
     { name="Ruben de Bruin", email="ruben@davelab.nl" },
