@@ -59,7 +59,7 @@ license-files = [
 
 dependencies = [
     "pyqtgraph>=0.13.7",
-    "pyside6-essentials>=6.8.3",
+    "pyside6-essentials>=6.4.0.1",
 ]
 [project.urls]
 Repository = "https://github.com/dave-Lab-and-Engineering/python-build-utils"
