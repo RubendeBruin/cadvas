@@ -1,10 +1,7 @@
 import sys
+import os
 
-if sys.version_info[:2] >= (3, 8):
-    # TODO: Import directly (no need for conditional) when `python_requires = >= 3.8`
-    from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
-else:
-    from importlib_metadata import PackageNotFoundError, version  # pragma: no cover
+from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
 
 try:
     # Change here if project is renamed and does not equal the package name
@@ -15,8 +12,19 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-import os
 os.environ['PYQTGRAPH_QT_LIB'] = 'PySide6'
 
 from .widget import QCadvasWidget
-from .elements import *
+from .elements import CadItem, Segment, Box, Circle, Polygon, Measure
+
+__all__ = [
+    "QCadvasWidget", 
+    "CadItem", 
+    "Segment", 
+    "Box", 
+    "Circle", 
+    "Polygon", 
+    "Measure",
+]
+                    
+

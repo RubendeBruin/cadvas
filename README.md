@@ -1,3 +1,3 @@
 # cadvas
 
-A utility for 2D caddrawings
+A utility for 2D cad-drawings
