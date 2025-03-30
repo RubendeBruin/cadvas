@@ -106,7 +106,7 @@ class CadItem(ABC):
         """Updates the items."""
         pass
 
-    def in_view(self, x, y, w):
+    def in_view(self, x: float, y: float, w: pg.PlotWidget) -> bool:
         """Determines whether a point (x, y) is within the visible range of a given view.
 
         Args:
@@ -118,10 +118,7 @@ class CadItem(ABC):
             bool: True if the point (x, y) is within the visible range of the view, False otherwise.
         """
         view_range = w.viewRect()
-        is_in_view = True
-        if x < view_range.left() or x > view_range.right() or y > view_range.bottom() or y < view_range.top():
-            is_in_view = False
-        return is_in_view
+        return view_range.left() <= x <= view_range.right() and view_range.top() <= y <= view_range.bottom()
 
 
 class Segment(CadItem):
@@ -304,7 +301,7 @@ class Circle(CadItem):
             2 * self.radius,
         )
         pen = self.circle.pen()
-        pen.setWidth(0.1)
+        pen.setWidthF(0.1)
         self.circle.setPen(pen)
         target.addItem(self.circle, ignoreBounds=not do_bounds)
 
@@ -424,7 +421,7 @@ class Measure(CadItem):
             self.end[1] + self.offset[1],
         )
         pen = self.line.pen()
-        pen.setWidth(0.1)
+        pen.setWidthF(0.1)
         pen.setColor(MEASURE_COLOR)
         self.line.setPen(pen)
 
