@@ -1,4 +1,5 @@
 
+import math
 import pyqtgraph as pg
 from cadvas import QCadvasWidget, Box, Circle, Measure, Polygon, Segment
 from PySide6 import QtWidgets
