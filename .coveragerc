@@ -1,4 +1,5 @@
 # .coveragerc to control coverage.py
+# type: ignore[file]
 [run]
 branch = True
 source = cadvas

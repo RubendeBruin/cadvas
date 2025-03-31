@@ -1,10 +1,10 @@
-import sys
+"""This module initializes the `cadvas` package and sets up its environment."""
 
-if sys.version_info[:2] >= (3, 8):
-    # TODO: Import directly (no need for conditional) when `python_requires = >= 3.8`
-    from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
-else:
-    from importlib_metadata import PackageNotFoundError, version  # pragma: no cover
+import os
+from importlib.metadata import PackageNotFoundError, version  # pragma: no cover
+
+from .elements import Box, CadItem, Circle, Measure, Polygon, Segment
+from .widget import QCadvasWidget
 
 try:
     # Change here if project is renamed and does not equal the package name
@@ -15,8 +15,14 @@ except PackageNotFoundError:  # pragma: no cover
 finally:
     del version, PackageNotFoundError
 
-import os
-os.environ['PYQTGRAPH_QT_LIB'] = 'PySide6'
+os.environ["PYQTGRAPH_QT_LIB"] = "PySide6"
 
-from .widget import QCadvasWidget
-from .elements import *
+__all__ = [
+    "Box",
+    "CadItem",
+    "Circle",
+    "Measure",
+    "Polygon",
+    "QCadvasWidget",
+    "Segment",
+]
